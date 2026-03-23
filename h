@@ -42,13 +42,12 @@ local function circle(btn, pos)
     end)
 end
 
-lib.new = function(name)
+lib.new = function()
     local tbl = {}
 
     local nulllib = Instance.new("ScreenGui")
     nulllib.Name = "null.lib"
-    -- nulllib.Parent = game:GetService("CoreGui")
-    nulllib.Parent = game:GetService("Players").LocalPlayer.PlayerGui
+    nulllib.Parent = game:GetService("CoreGui")
     nulllib.IgnoreGuiInset = false
 
     function tbl:exit()
