@@ -2,6 +2,7 @@ local lib = {}
 
 local btnface = Font.new("rbxasset://fonts/families/Inconsolata.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
 local catface = Font.new("rbxasset://fonts/families/Inconsolata.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+local RunService = game:GetService("RunService")
 local tween = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 
@@ -198,7 +199,7 @@ lib.new = function()
                 hovering = false
             end)
 
-            game:GetService("RunService").RenderStepped:Connect(function()
+            RunService.RenderStepped:Connect(function()
                 TextButton.BackgroundColor3 = TextButton.BackgroundColor3:Lerp(hovering and hovercolor or defaultcolor,
                     .1)
             end)
@@ -254,14 +255,14 @@ lib.new = function()
 
             function tgl:bindTo(key, hold)
                 UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
-                    if input == key then
+                    if input.KeyCode == key then
                         state = (hold or not state)
                         call(state)
                     end
                 end)
                 if hold then
                     UserInputService.InputEnded:Connect(function(input, gameProcessedEvent)
-                        if input == key then
+                        if input.KeyCode == key then
                             state = false
                             call(state)
                         end
@@ -282,7 +283,7 @@ lib.new = function()
             corner.Name = "corner"
             corner.Parent = Toggle
 
-            game:GetService("RunService").RenderStepped:Connect(function()
+            RunService.RenderStepped:Connect(function()
                 Toggle.BackgroundColor3 = Toggle.BackgroundColor3:Lerp(state and
                                                                            (hovering and oncolorhovering or oncolor) or
                                                                            (hovering and offcolorhovering or offcolor),
@@ -323,7 +324,7 @@ lib.new = function()
                 hovering = false
             end)
 
-            game:GetService("RunService").RenderStepped:Connect(function()
+            RunService.RenderStepped:Connect(function()
                 TextButton.BackgroundColor3 = TextButton.BackgroundColor3:Lerp(hovering and hovercolor or defaultcolor,
                     .1)
             end)
@@ -417,7 +418,7 @@ lib.new = function()
 
         return tabtbl
     end
-    game:GetService("RunService").RenderStepped:Connect(function()
+    RunService.RenderStepped:Connect(function()
         for _, v in pairs(container:GetChildren()) do
             if v:IsA("Frame") then
                 local scrl = v.body.scroll
