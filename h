@@ -2,18 +2,17 @@ local lib = {}
 
 local btnface = Font.new("rbxasset://fonts/families/Inconsolata.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
 local catface = Font.new("rbxasset://fonts/families/Inconsolata.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+local tween = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
 
 local function lerp(a, b, c)
     return a + (b - a) * c
 end
 
 local function getmouse()
-    local UIS = game:GetService("UserInputService")
     local GuiService = game:GetService("GuiService")
-    return UIS:GetMouseLocation() - GuiService:GetGuiInset()
+    return UserInputService:GetMouseLocation() - GuiService:GetGuiInset()
 end
-
-local tween = game:GetService("TweenService")
 
 local function circle(btn, pos)
     local new = Instance.new("Frame")
@@ -215,6 +214,7 @@ lib.new = function()
         end
 
         function tabtbl:Tgl(name, default, call)
+            local tgl = {}
             local Toggle = Instance.new("TextButton")
             local corner = Instance.new("UICorner")
 
@@ -251,6 +251,23 @@ lib.new = function()
                 state = not state
                 call(state)
             end)
+
+            function tgl:bindTo(key, hold)
+                UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+                    if input == key then
+                        state = (hold or not state)
+                        call(state)
+                    end
+                end)
+                if hold then
+                    UserInputService.InputEnded:Connect(function(input, gameProcessedEvent)
+                        if input == key then
+                            state = false
+                            call(state)
+                        end
+                    end)
+                end
+            end
 
             local hovering = false
 
