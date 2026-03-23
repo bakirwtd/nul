@@ -8,10 +8,9 @@ local function lerp(a, b, c)
 end
 
 local function getmouse()
-    -- local UIS = game:GetService("UserInputService")
-    -- local GuiService = game:GetService("GuiService")
-    -- return UIS:GetMouseLocation() - GuiService:GetGuiInset()
-    return Vector2.new()
+    local UIS = game:GetService("UserInputService")
+    local GuiService = game:GetService("GuiService")
+    return UIS:GetMouseLocation() - GuiService:GetGuiInset()
 end
 
 local tween = game:GetService("TweenService")
@@ -391,6 +390,7 @@ lib.new = function()
             Label.TextColor3 = Color3.fromRGB(255, 255, 255)
             Label.TextSize = 30
             Label.TextScaled = true
+            Label.Visible = false
 
             local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
             UITextSizeConstraint.Parent = Label
