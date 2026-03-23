@@ -348,7 +348,7 @@ lib.new = function(name:string)
 				box:CaptureFocus()
 				box.FocusLost:Connect(function(entered)
 					if entered then
-						call(tonumber(box.Text))
+						call(box.Text)
 					end
 					tween:Create(input, TweenInfo.new(.2,Enum.EasingStyle.Quart, Enum.EasingDirection.In), {Size = UDim2.new(0,0)}):Play()
 					wait(.3)
