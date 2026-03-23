@@ -289,6 +289,7 @@ lib.new = function()
                     .1)
                 Toggle.TextColor3 = Toggle.TextColor3:Lerp(state and ontextcolor or offtextcolor, .1)
             end)
+            return tgl
         end
 
         function tabtbl:Text(name, call)
