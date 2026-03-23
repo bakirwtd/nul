@@ -74,7 +74,7 @@ lib.new = function()
     function tbl:Tab(name)
         local tabtbl = {}
 
-        local toggled = false
+        local toggled = true
 
         local tab = Instance.new("Frame")
         tab.Name = name
