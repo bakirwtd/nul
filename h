@@ -169,6 +169,7 @@ lib.new = function()
         layout_2.Padding = UDim.new(0, 10)
 
         function tabtbl:Btn(name, call)
+            local btn = {}
             local TextButton = Instance.new("TextButton")
             local corner_3 = Instance.new("UICorner")
             local defaultcolor = Color3.fromRGB(31, 39, 47)
@@ -212,6 +213,14 @@ lib.new = function()
                 call()
                 circle(TextButton)
             end)
+
+            function btn:bindTo(key)
+                UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+                    if input.KeyCode == key then
+                        call()
+                    end
+                end)
+            end
         end
 
         function tabtbl:Tgl(name, default, call)
