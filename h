@@ -1,11 +1,11 @@
 local lib = {}
 
-local btnface = Font.new("rbxasset://fonts/families/Inconsolata.json",
-                         Enum.FontWeight.Regular, Enum.FontStyle.Normal)
-local catface = Font.new("rbxasset://fonts/families/Inconsolata.json",
-                         Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+local btnface = Font.new("rbxasset://fonts/families/Inconsolata.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+local catface = Font.new("rbxasset://fonts/families/Inconsolata.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
 
-local function lerp(a, b, c) return a + (b - a) * c end
+local function lerp(a, b, c)
+    return a + (b - a) * c
+end
 
 local function getmouse()
     local UIS = game:GetService("UserInputService")
@@ -22,21 +22,18 @@ local function circle(btn, pos)
     new.Name = "circle"
     new.Parent = btn
     new.Size = UDim2.fromOffset(50, 50)
-    new.BackgroundColor3 = Color3.fromRGB(btn.BackgroundColor3.R * 255 + 30,
-                                          btn.BackgroundColor3.G * 255 + 30,
-                                          btn.BackgroundColor3.B * 255 + 30)
+    new.BackgroundColor3 = Color3.fromRGB(btn.BackgroundColor3.R * 255 + 30, btn.BackgroundColor3.G * 255 + 30,
+        btn.BackgroundColor3.B * 255 + 30)
     new.BorderSizePixel = 0
     new.ZIndex = 100
     new.AnchorPoint = Vector2.new(0.5, 0.5)
 
     local pos = getmouse()
-    local newpos = UDim2.fromOffset(pos.X - btn.AbsolutePosition.X,
-                                    pos.Y - btn.AbsolutePosition.Y)
+    local newpos = UDim2.fromOffset(pos.X - btn.AbsolutePosition.X, pos.Y - btn.AbsolutePosition.Y)
     new.Position = newpos
 
     task.spawn(function()
-        tween:Create(new, TweenInfo.new(.3, Enum.EasingStyle.Quad,
-                                        Enum.EasingDirection.Out), {
+        tween:Create(new, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
             Size = UDim2.fromOffset(80, 80),
             BackgroundTransparency = 1
         }):Play()
@@ -54,7 +51,9 @@ lib.new = function(name)
     nulllib.Parent = game:GetService("Players").LocalPlayer.PlayerGui
     nulllib.IgnoreGuiInset = false
 
-    function tbl:exit() nulllib:Destroy() end
+    function tbl:exit()
+        nulllib:Destroy()
+    end
 
     local container = Instance.new("Frame")
     container.Name = "container"
@@ -70,7 +69,7 @@ lib.new = function(name)
     layout.FillDirection = Enum.FillDirection.Horizontal
     layout.Padding = UDim.new(0.1, 0)
 
-    function tbl:newTab(name)
+    function tbl:Tab(name)
         local tabtbl = {}
 
         local toggled = false
@@ -157,7 +156,9 @@ lib.new = function(name)
         trigger.MouseButton1Click:Connect(function()
             toggled = not toggled
             for _, v in pairs(scroll:GetChildren()) do
-                if v:IsA("TextButton") then v.Visible = toggled end
+                if v:IsA("TextButton") then
+                    v.Visible = toggled
+                end
             end
             circle(trigger)
         end)
@@ -192,13 +193,16 @@ lib.new = function(name)
 
             local hovering = false
 
-            TextButton.MouseEnter:Connect(function() hovering = true end)
-            TextButton.MouseLeave:Connect(function() hovering = false end)
+            TextButton.MouseEnter:Connect(function()
+                hovering = true
+            end)
+            TextButton.MouseLeave:Connect(function()
+                hovering = false
+            end)
 
             game:GetService("RunService").RenderStepped:Connect(function()
-                TextButton.BackgroundColor3 =
-                    TextButton.BackgroundColor3:Lerp(hovering and hovercolor or
-                                                         defaultcolor, .1)
+                TextButton.BackgroundColor3 = TextButton.BackgroundColor3:Lerp(hovering and hovercolor or defaultcolor,
+                    .1)
             end)
 
             corner_3.CornerRadius = UDim.new(0.4, 0)
@@ -251,25 +255,23 @@ lib.new = function(name)
 
             local hovering = false
 
-            Toggle.MouseEnter:Connect(function() hovering = true end)
-            Toggle.MouseLeave:Connect(function() hovering = false end)
+            Toggle.MouseEnter:Connect(function()
+                hovering = true
+            end)
+            Toggle.MouseLeave:Connect(function()
+                hovering = false
+            end)
 
             corner.CornerRadius = UDim.new(0.4, 0)
             corner.Name = "corner"
             corner.Parent = Toggle
 
             game:GetService("RunService").RenderStepped:Connect(function()
-                Toggle.BackgroundColor3 =
-                    Toggle.BackgroundColor3:Lerp(state and
-                                                     (hovering and
-                                                         oncolorhovering or
-                                                         oncolor) or
-                                                     (hovering and
-                                                         offcolorhovering or
-                                                         offcolor), .1)
-                Toggle.TextColor3 = Toggle.TextColor3:Lerp(
-                                        state and ontextcolor or offtextcolor,
-                                        .1)
+                Toggle.BackgroundColor3 = Toggle.BackgroundColor3:Lerp(state and
+                                                                           (hovering and oncolorhovering or oncolor) or
+                                                                           (hovering and offcolorhovering or offcolor),
+                    .1)
+                Toggle.TextColor3 = Toggle.TextColor3:Lerp(state and ontextcolor or offtextcolor, .1)
             end)
         end
 
@@ -297,13 +299,16 @@ lib.new = function(name)
 
             local hovering = false
 
-            TextButton.MouseEnter:Connect(function() hovering = true end)
-            TextButton.MouseLeave:Connect(function() hovering = false end)
+            TextButton.MouseEnter:Connect(function()
+                hovering = true
+            end)
+            TextButton.MouseLeave:Connect(function()
+                hovering = false
+            end)
 
             game:GetService("RunService").RenderStepped:Connect(function()
-                TextButton.BackgroundColor3 =
-                    TextButton.BackgroundColor3:Lerp(hovering and hovercolor or
-                                                         defaultcolor, .1)
+                TextButton.BackgroundColor3 = TextButton.BackgroundColor3:Lerp(hovering and hovercolor or defaultcolor,
+                    .1)
             end)
 
             corner_3.CornerRadius = UDim.new(0.4, 0)
@@ -316,8 +321,7 @@ lib.new = function(name)
                 local gradient = Instance.new("UIGradient")
                 local corner = Instance.new("UICorner")
                 local box = Instance.new("TextBox")
-                local UITextSizeConstraint =
-                    Instance.new("UITextSizeConstraint")
+                local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
 
                 input.Name = "input"
                 input.Parent = nulllib
@@ -327,16 +331,12 @@ lib.new = function(name)
                 input.BorderSizePixel = 0
                 input.Position = UDim2.new(0.5, 0, 0.5, 0)
                 input.Size = UDim2.new(0, 0, 0, 0)
-                tween:Create(input, TweenInfo.new(.2, Enum.EasingStyle.Quart,
-                                                  Enum.EasingDirection.Out),
-                             {Size = UDim2.new(0.1, 0, 0.1, 0)}):Play()
+                tween:Create(input, TweenInfo.new(.2, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+                    Size = UDim2.new(0.1, 0, 0.1, 0)
+                }):Play()
 
-                gradient.Color = ColorSequence.new {
-                    ColorSequenceKeypoint.new(0.00,
-                                              Color3.fromRGB(255, 255, 255)),
-                    ColorSequenceKeypoint.new(1.00,
-                                              Color3.fromRGB(216, 216, 216))
-                }
+                gradient.Color = ColorSequence.new {ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)),
+                                                    ColorSequenceKeypoint.new(1.00, Color3.fromRGB(216, 216, 216))}
                 gradient.Rotation = 45
                 gradient.Name = "gradient"
                 gradient.Parent = input
@@ -363,11 +363,12 @@ lib.new = function(name)
 
                 box:CaptureFocus()
                 box.FocusLost:Connect(function(entered)
-                    if entered then call(tonumber(box.Text)) end
-                    tween:Create(input, TweenInfo.new(.2,
-                                                      Enum.EasingStyle.Quart,
-                                                      Enum.EasingDirection.In),
-                                 {Size = UDim2.new(0, 0)}):Play()
+                    if entered then
+                        call(tonumber(box.Text))
+                    end
+                    tween:Create(input, TweenInfo.new(.2, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
+                        Size = UDim2.new(0, 0)
+                    }):Play()
                     wait(.3)
                     box:Destroy()
                 end)
@@ -416,7 +417,9 @@ lib.new = function(name)
                 btns = math.min(btns, 10)
 
                 local yoff = (ysize + padding) * (btns - 1)
-                if btns == 0 then yoff = 0 end
+                if btns == 0 then
+                    yoff = 0
+                end
 
                 local final = UDim2.new(1, 0, btns > 0 and minscale or 0, yoff)
 
