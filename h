@@ -1,421 +1,430 @@
 local lib = {}
 
-local btnface = Font.new("rbxasset://fonts/families/Inconsolata.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
-local catface = Font.new("rbxasset://fonts/families/Inconsolata.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+local btnface = Font.new("rbxasset://fonts/families/Inconsolata.json",
+                         Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+local catface = Font.new("rbxasset://fonts/families/Inconsolata.json",
+                         Enum.FontWeight.Bold, Enum.FontStyle.Normal)
 
-local function lerp(a,b,c)
-	return a + (b-a)*c
-end
+local function lerp(a, b, c) return a + (b - a) * c end
 
 local function getmouse()
-	local UIS = game:GetService("UserInputService")
-	local GuiService = game:GetService("GuiService")
-	return UIS:GetMouseLocation() - GuiService:GetGuiInset()
+    local UIS = game:GetService("UserInputService")
+    local GuiService = game:GetService("GuiService")
+    return UIS:GetMouseLocation() - GuiService:GetGuiInset()
 end
 
 local tween = game:GetService("TweenService")
 
 local function circle(btn, pos)
-	local new = Instance.new("Frame")
-	local corner = Instance.new("UICorner", new)
-	corner.CornerRadius = UDim.new(1,0)
-	new.Name = "circle"
-	new.Parent = btn
-	new.Size = UDim2.fromOffset(50,50)
-	new.BackgroundColor3 = Color3.fromRGB(btn.BackgroundColor3.R*255 + 30, btn.BackgroundColor3.G*255 + 30, btn.BackgroundColor3.B*255 + 30)
-	new.BorderSizePixel = 0
-	new.ZIndex = 100
-	new.AnchorPoint = Vector2.new(0.5,0.5)
+    local new = Instance.new("Frame")
+    local corner = Instance.new("UICorner", new)
+    corner.CornerRadius = UDim.new(1, 0)
+    new.Name = "circle"
+    new.Parent = btn
+    new.Size = UDim2.fromOffset(50, 50)
+    new.BackgroundColor3 = Color3.fromRGB(btn.BackgroundColor3.R * 255 + 30,
+                                          btn.BackgroundColor3.G * 255 + 30,
+                                          btn.BackgroundColor3.B * 255 + 30)
+    new.BorderSizePixel = 0
+    new.ZIndex = 100
+    new.AnchorPoint = Vector2.new(0.5, 0.5)
 
-	local pos = getmouse()
-	local newpos = UDim2.fromOffset(pos.X - btn.AbsolutePosition.X, pos.Y - btn.AbsolutePosition.Y)
-	new.Position = newpos
+    local pos = getmouse()
+    local newpos = UDim2.fromOffset(pos.X - btn.AbsolutePosition.X,
+                                    pos.Y - btn.AbsolutePosition.Y)
+    new.Position = newpos
 
-	task.spawn(function()
-		tween:Create(new, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.fromOffset(80,80), BackgroundTransparency = 1}):Play()
-		wait(.3)
-		new:Destroy()
-	end)
+    task.spawn(function()
+        tween:Create(new, TweenInfo.new(.3, Enum.EasingStyle.Quad,
+                                        Enum.EasingDirection.Out), {
+            Size = UDim2.fromOffset(80, 80),
+            BackgroundTransparency = 1
+        }):Play()
+        wait(.3)
+        new:Destroy()
+    end)
 end
 
 lib.new = function(name)
-	local tbl = {}
+    local tbl = {}
 
-	local nulllib = Instance.new("ScreenGui")
-	nulllib.Name = "null.lib"
-	--nulllib.Parent = game:GetService("CoreGui")
-	nulllib.Parent = game:GetService("Players").LocalPlayer.PlayerGui
-	nulllib.IgnoreGuiInset = false
+    local nulllib = Instance.new("ScreenGui")
+    nulllib.Name = "null.lib"
+    -- nulllib.Parent = game:GetService("CoreGui")
+    nulllib.Parent = game:GetService("Players").LocalPlayer.PlayerGui
+    nulllib.IgnoreGuiInset = false
 
-	local container = Instance.new("Frame")
-	container.Name = "container"
-	container.Parent = nulllib
-	container.BackgroundTransparency = 1
-	container.BorderSizePixel = 0
-	container.Position = UDim2.new(0, 30, 0, 30)
-	container.Size = UDim2.new(0.1, 0, 0, 40)
+    function tbl:exit() nulllib:Destroy() end
 
-	local layout = Instance.new("UIListLayout")
-	layout.Name = "layout"
-	layout.Parent = container
-	layout.FillDirection = Enum.FillDirection.Horizontal
-	layout.Padding = UDim.new(0.1, 0)
+    local container = Instance.new("Frame")
+    container.Name = "container"
+    container.Parent = nulllib
+    container.BackgroundTransparency = 1
+    container.BorderSizePixel = 0
+    container.Position = UDim2.new(0, 30, 0, 30)
+    container.Size = UDim2.new(0.1, 0, 0, 40)
 
-	function tbl:newTab(name)
-		local tabtbl = {}
+    local layout = Instance.new("UIListLayout")
+    layout.Name = "layout"
+    layout.Parent = container
+    layout.FillDirection = Enum.FillDirection.Horizontal
+    layout.Padding = UDim.new(0.1, 0)
 
-		local toggled = false
+    function tbl:newTab(name)
+        local tabtbl = {}
 
-		local tab = Instance.new("Frame")
-		tab.Name = name
-		tab.Parent = container
-		tab.BackgroundTransparency = 1
-		tab.BorderSizePixel = 0
-		tab.Size = UDim2.new(1, 0, 1, 0)
+        local toggled = false
 
-		local main = Instance.new("Frame")
-		main.Name = "main"
-		main.Parent = tab
-		main.BackgroundColor3 = Color3.fromRGB(31, 39, 47)
-		main.BorderSizePixel = 0
-		main.Size = UDim2.new(1, 0, 1, 0)
-		main.ZIndex = 2
+        local tab = Instance.new("Frame")
+        tab.Name = name
+        tab.Parent = container
+        tab.BackgroundTransparency = 1
+        tab.BorderSizePixel = 0
+        tab.Size = UDim2.new(1, 0, 1, 0)
 
-		local tabName = Instance.new("TextLabel")
-		tabName.Name = "tabName"
-		tabName.Parent = main
-		tabName.BackgroundTransparency = 1
-		tabName.BorderSizePixel = 0
-		tabName.Size = UDim2.new(1, 0, 1, 0)
-		tabName.FontFace = catface
-		tabName.Text = name
-		tabName.TextColor3 = Color3.fromRGB(255, 255, 255)
-		tabName.TextSize = 30
-		tabName.ZIndex = 4
+        local main = Instance.new("Frame")
+        main.Name = "main"
+        main.Parent = tab
+        main.BackgroundColor3 = Color3.fromRGB(31, 39, 47)
+        main.BorderSizePixel = 0
+        main.Size = UDim2.new(1, 0, 1, 0)
+        main.ZIndex = 2
 
-		local corner = Instance.new("UICorner")
-		corner.CornerRadius = UDim.new(0.4, 0)
-		corner.Name = "corner"
-		corner.Parent = main
+        local tabName = Instance.new("TextLabel")
+        tabName.Name = "tabName"
+        tabName.Parent = main
+        tabName.BackgroundTransparency = 1
+        tabName.BorderSizePixel = 0
+        tabName.Size = UDim2.new(1, 0, 1, 0)
+        tabName.FontFace = catface
+        tabName.Text = name
+        tabName.TextColor3 = Color3.fromRGB(255, 255, 255)
+        tabName.TextSize = 30
+        tabName.ZIndex = 4
 
-		local body = Instance.new("Frame")
-		body.Name = "body"
-		body.Parent = tab
-		body.BackgroundColor3 = Color3.fromRGB(24, 30, 36)
-		body.BorderSizePixel = 0
-		body.Position = UDim2.new(0, 0, 0.5, 0)
-		body.Size = UDim2.new(1, 0, 0, 0)
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = UDim.new(0.4, 0)
+        corner.Name = "corner"
+        corner.Parent = main
 
-		local bottom = Instance.new("Frame")
-		bottom.Name = "bottom"
-		bottom.Parent = body
-		bottom.AnchorPoint = Vector2.new(0, 0.5)
-		bottom.BackgroundColor3 = Color3.fromRGB(24, 30, 36)
-		bottom.BorderSizePixel = 0
-		bottom.Position = UDim2.new(0, 0, 1, 0)
-		bottom.Size = UDim2.new(1, 0, 0, 40)
-		bottom.ZIndex = 0
+        local body = Instance.new("Frame")
+        body.Name = "body"
+        body.Parent = tab
+        body.BackgroundColor3 = Color3.fromRGB(24, 30, 36)
+        body.BorderSizePixel = 0
+        body.Position = UDim2.new(0, 0, 0.5, 0)
+        body.Size = UDim2.new(1, 0, 0, 0)
 
-		local corner_2 = Instance.new("UICorner")
-		corner_2.CornerRadius = UDim.new(0.4, 0)
-		corner_2.Name = "corner"
-		corner_2.Parent = bottom
+        local bottom = Instance.new("Frame")
+        bottom.Name = "bottom"
+        bottom.Parent = body
+        bottom.AnchorPoint = Vector2.new(0, 0.5)
+        bottom.BackgroundColor3 = Color3.fromRGB(24, 30, 36)
+        bottom.BorderSizePixel = 0
+        bottom.Position = UDim2.new(0, 0, 1, 0)
+        bottom.Size = UDim2.new(1, 0, 0, 40)
+        bottom.ZIndex = 0
 
-		local scroll = Instance.new("ScrollingFrame")
-		scroll.Name = "scroll"
-		scroll.Parent = body
-		scroll.Active = true
-		scroll.AnchorPoint = Vector2.new(0, 1)
-		scroll.BackgroundTransparency = 1
-		scroll.BorderSizePixel = 0
-		scroll.Position = UDim2.new(0, 0, 1, 0)
-		scroll.Size = UDim2.new(1, 0, 1, -30)
-		scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
-		scroll.ScrollBarThickness = 0
-		scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+        local corner_2 = Instance.new("UICorner")
+        corner_2.CornerRadius = UDim.new(0.4, 0)
+        corner_2.Name = "corner"
+        corner_2.Parent = bottom
 
-		local trigger = Instance.new("TextButton")
+        local scroll = Instance.new("ScrollingFrame")
+        scroll.Name = "scroll"
+        scroll.Parent = body
+        scroll.Active = true
+        scroll.AnchorPoint = Vector2.new(0, 1)
+        scroll.BackgroundTransparency = 1
+        scroll.BorderSizePixel = 0
+        scroll.Position = UDim2.new(0, 0, 1, 0)
+        scroll.Size = UDim2.new(1, 0, 1, -30)
+        scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+        scroll.ScrollBarThickness = 0
+        scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
 
-		trigger.Name = "trigger"
-		trigger.Parent = main
-		trigger.BackgroundColor3 = main.BackgroundColor3
-		trigger.BackgroundTransparency = 1
-		trigger.BorderSizePixel = 0
-		trigger.Size = UDim2.new(1, 0, 1, 0)
-		trigger.Text = ""
-		trigger.ZIndex = 5
-		trigger.ClipsDescendants = true
-		trigger.MouseButton1Click:Connect(function()
-			toggled = not toggled
-			for _,v in pairs(scroll:GetChildren()) do
-				if v:IsA("TextButton") then
-					v.Visible = toggled
-				end
-			end
-			circle(trigger)
-		end)
+        local trigger = Instance.new("TextButton")
 
-		local layout_2 = Instance.new("UIListLayout")
-		layout_2.Name = "layout"
-		layout_2.Parent = scroll
-		layout_2.SortOrder = Enum.SortOrder.LayoutOrder
-		layout_2.Padding = UDim.new(0, 10)
+        trigger.Name = "trigger"
+        trigger.Parent = main
+        trigger.BackgroundColor3 = main.BackgroundColor3
+        trigger.BackgroundTransparency = 1
+        trigger.BorderSizePixel = 0
+        trigger.Size = UDim2.new(1, 0, 1, 0)
+        trigger.Text = ""
+        trigger.ZIndex = 5
+        trigger.ClipsDescendants = true
+        trigger.MouseButton1Click:Connect(function()
+            toggled = not toggled
+            for _, v in pairs(scroll:GetChildren()) do
+                if v:IsA("TextButton") then v.Visible = toggled end
+            end
+            circle(trigger)
+        end)
 
-		function tabtbl:addBtn(name,call)
-			local TextButton = Instance.new("TextButton")
-			local corner_3 = Instance.new("UICorner")
-			local defaultcolor = Color3.fromRGB(31, 39, 47)
-			local hovercolor = Color3.fromRGB(53, 66, 80)
-			TextButton.Parent = scroll
-			TextButton.BackgroundColor3 = defaultcolor
-			TextButton.BorderSizePixel = 0
-			TextButton.Size = UDim2.new(1, 0, 0, 40)
-			TextButton.AutoButtonColor = false
-			TextButton.FontFace = btnface
-			TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-			TextButton.TextSize = 30
-			TextButton.Text = name
-			TextButton.Visible = false
-			TextButton.ClipsDescendants = true
-			TextButton.TextScaled = true
+        local layout_2 = Instance.new("UIListLayout")
+        layout_2.Name = "layout"
+        layout_2.Parent = scroll
+        layout_2.SortOrder = Enum.SortOrder.LayoutOrder
+        layout_2.Padding = UDim.new(0, 10)
 
-			local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
-			UITextSizeConstraint.Parent = TextButton
-			UITextSizeConstraint.MaxTextSize = 30
+        function tabtbl:Btn(name, call)
+            local TextButton = Instance.new("TextButton")
+            local corner_3 = Instance.new("UICorner")
+            local defaultcolor = Color3.fromRGB(31, 39, 47)
+            local hovercolor = Color3.fromRGB(53, 66, 80)
+            TextButton.Parent = scroll
+            TextButton.BackgroundColor3 = defaultcolor
+            TextButton.BorderSizePixel = 0
+            TextButton.Size = UDim2.new(1, 0, 0, 40)
+            TextButton.AutoButtonColor = false
+            TextButton.FontFace = btnface
+            TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+            TextButton.TextSize = 30
+            TextButton.Text = name
+            TextButton.Visible = false
+            TextButton.ClipsDescendants = true
+            TextButton.TextScaled = true
 
-			local hovering = false
+            local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+            UITextSizeConstraint.Parent = TextButton
+            UITextSizeConstraint.MaxTextSize = 30
 
-			TextButton.MouseEnter:Connect(function()
-				hovering = true
-			end)
-			TextButton.MouseLeave:Connect(function()
-				hovering = false
-			end)
+            local hovering = false
 
-			game:GetService("RunService").RenderStepped:Connect(function()
-				TextButton.BackgroundColor3 = TextButton.BackgroundColor3:Lerp(hovering and hovercolor or defaultcolor, .1)
-			end)
+            TextButton.MouseEnter:Connect(function() hovering = true end)
+            TextButton.MouseLeave:Connect(function() hovering = false end)
 
-			corner_3.CornerRadius = UDim.new(0.4, 0)
-			corner_3.Name = "corner"
-			corner_3.Parent = TextButton
+            game:GetService("RunService").RenderStepped:Connect(function()
+                TextButton.BackgroundColor3 =
+                    TextButton.BackgroundColor3:Lerp(hovering and hovercolor or
+                                                         defaultcolor, .1)
+            end)
 
-			TextButton.MouseButton1Click:Connect(function()
-				call()
-				circle(TextButton)
-			end)
-		end
+            corner_3.CornerRadius = UDim.new(0.4, 0)
+            corner_3.Name = "corner"
+            corner_3.Parent = TextButton
 
-		function tabtbl:addTgl(name,default,call)
-			local Toggle = Instance.new("TextButton")
-			local corner = Instance.new("UICorner")
+            TextButton.MouseButton1Click:Connect(function()
+                call()
+                circle(TextButton)
+            end)
+        end
 
-			local state = default
+        function tabtbl:Tgl(name, default, call)
+            local Toggle = Instance.new("TextButton")
+            local corner = Instance.new("UICorner")
 
-			local oncolor = Color3.fromRGB(22, 43, 24)
-			local offcolor = Color3.fromRGB(43, 22, 22)
-			local ontextcolor = Color3.fromRGB(124, 200, 112)
-			local offtextcolor = Color3.fromRGB(200, 88, 118)
+            local state = default
 
-			local oncolorhovering = Color3.fromRGB(39, 77, 42)
-			local offcolorhovering = Color3.fromRGB(81, 41, 41)
+            local oncolor = Color3.fromRGB(22, 43, 24)
+            local offcolor = Color3.fromRGB(43, 22, 22)
+            local ontextcolor = Color3.fromRGB(124, 200, 112)
+            local offtextcolor = Color3.fromRGB(200, 88, 118)
 
-			Toggle.Name = "Toggle"
-			Toggle.Parent = scroll
-			Toggle.BackgroundColor3 = Color3.fromRGB(22, 43, 24)
-			Toggle.BorderColor3 = Color3.fromRGB(0, 0, 0)
-			Toggle.BorderSizePixel = 0
-			Toggle.Size = UDim2.new(1, 0, 0, 40)
-			Toggle.AutoButtonColor = false
-			Toggle.FontFace = btnface
-			Toggle.TextColor3 = Color3.fromRGB(124, 200, 112)
-			Toggle.TextSize = 30
-			Toggle.Visible = false
-			Toggle.ClipsDescendants = true
-			Toggle.Text = name
-			Toggle.TextScaled = true
+            local oncolorhovering = Color3.fromRGB(39, 77, 42)
+            local offcolorhovering = Color3.fromRGB(81, 41, 41)
 
-			local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
-			UITextSizeConstraint.Parent = Toggle
-			UITextSizeConstraint.MaxTextSize = 30
+            Toggle.Name = "Toggle"
+            Toggle.Parent = scroll
+            Toggle.BackgroundColor3 = Color3.fromRGB(22, 43, 24)
+            Toggle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+            Toggle.BorderSizePixel = 0
+            Toggle.Size = UDim2.new(1, 0, 0, 40)
+            Toggle.AutoButtonColor = false
+            Toggle.FontFace = btnface
+            Toggle.TextColor3 = Color3.fromRGB(124, 200, 112)
+            Toggle.TextSize = 30
+            Toggle.Visible = false
+            Toggle.ClipsDescendants = true
+            Toggle.Text = name
+            Toggle.TextScaled = true
 
-			Toggle.MouseButton1Click:Connect(function()
-				state = not state
-				call(state)
-			end)
+            local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+            UITextSizeConstraint.Parent = Toggle
+            UITextSizeConstraint.MaxTextSize = 30
 
-			local hovering = false
+            Toggle.MouseButton1Click:Connect(function()
+                state = not state
+                call(state)
+            end)
 
-			Toggle.MouseEnter:Connect(function()
-				hovering = true
-			end)
-			Toggle.MouseLeave:Connect(function()
-				hovering = false
-			end)
+            local hovering = false
 
-			corner.CornerRadius = UDim.new(0.4, 0)
-			corner.Name = "corner"
-			corner.Parent = Toggle
+            Toggle.MouseEnter:Connect(function() hovering = true end)
+            Toggle.MouseLeave:Connect(function() hovering = false end)
 
-			game:GetService("RunService").RenderStepped:Connect(function()
-				Toggle.BackgroundColor3 = Toggle.BackgroundColor3:Lerp(state and (hovering and oncolorhovering or oncolor) or (hovering and offcolorhovering or offcolor), .1)
-				Toggle.TextColor3 = Toggle.TextColor3:Lerp(state and ontextcolor or offtextcolor, .1)
-			end)
-		end
+            corner.CornerRadius = UDim.new(0.4, 0)
+            corner.Name = "corner"
+            corner.Parent = Toggle
 
-		function tabtbl:addText(name, call)
-			local TextButton = Instance.new("TextButton")
-			local corner_3 = Instance.new("UICorner")
-			local defaultcolor = Color3.fromRGB(31, 39, 47)
-			local hovercolor = Color3.fromRGB(53, 66, 80)
-			TextButton.Parent = scroll
-			TextButton.BackgroundColor3 = defaultcolor
-			TextButton.BorderSizePixel = 0
-			TextButton.Size = UDim2.new(1, 0, 0, 40)
-			TextButton.AutoButtonColor = false
-			TextButton.FontFace = btnface
-			TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-			TextButton.TextSize = 30
-			TextButton.Text = name
-			TextButton.Visible = false
-			TextButton.ClipsDescendants = true
-			TextButton.TextScaled = true
+            game:GetService("RunService").RenderStepped:Connect(function()
+                Toggle.BackgroundColor3 =
+                    Toggle.BackgroundColor3:Lerp(state and
+                                                     (hovering and
+                                                         oncolorhovering or
+                                                         oncolor) or
+                                                     (hovering and
+                                                         offcolorhovering or
+                                                         offcolor), .1)
+                Toggle.TextColor3 = Toggle.TextColor3:Lerp(
+                                        state and ontextcolor or offtextcolor,
+                                        .1)
+            end)
+        end
 
-			local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
-			UITextSizeConstraint.Parent = TextButton
-			UITextSizeConstraint.MaxTextSize = 30
+        function tabtbl:Text(name, call)
+            local TextButton = Instance.new("TextButton")
+            local corner_3 = Instance.new("UICorner")
+            local defaultcolor = Color3.fromRGB(31, 39, 47)
+            local hovercolor = Color3.fromRGB(53, 66, 80)
+            TextButton.Parent = scroll
+            TextButton.BackgroundColor3 = defaultcolor
+            TextButton.BorderSizePixel = 0
+            TextButton.Size = UDim2.new(1, 0, 0, 40)
+            TextButton.AutoButtonColor = false
+            TextButton.FontFace = btnface
+            TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+            TextButton.TextSize = 30
+            TextButton.Text = name
+            TextButton.Visible = false
+            TextButton.ClipsDescendants = true
+            TextButton.TextScaled = true
 
-			local hovering = false
+            local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+            UITextSizeConstraint.Parent = TextButton
+            UITextSizeConstraint.MaxTextSize = 30
 
-			TextButton.MouseEnter:Connect(function()
-				hovering = true
-			end)
-			TextButton.MouseLeave:Connect(function()
-				hovering = false
-			end)
+            local hovering = false
 
-			game:GetService("RunService").RenderStepped:Connect(function()
-				TextButton.BackgroundColor3 = TextButton.BackgroundColor3:Lerp(hovering and hovercolor or defaultcolor, .1)
-			end)
+            TextButton.MouseEnter:Connect(function() hovering = true end)
+            TextButton.MouseLeave:Connect(function() hovering = false end)
 
-			corner_3.CornerRadius = UDim.new(0.4, 0)
-			corner_3.Name = "corner"
-			corner_3.Parent = TextButton
+            game:GetService("RunService").RenderStepped:Connect(function()
+                TextButton.BackgroundColor3 =
+                    TextButton.BackgroundColor3:Lerp(hovering and hovercolor or
+                                                         defaultcolor, .1)
+            end)
 
-			TextButton.MouseButton1Click:Connect(function()
-				circle(TextButton)
-				local input = Instance.new("Frame")
-				local gradient = Instance.new("UIGradient")
-				local corner = Instance.new("UICorner")
-				local box = Instance.new("TextBox")
-				local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+            corner_3.CornerRadius = UDim.new(0.4, 0)
+            corner_3.Name = "corner"
+            corner_3.Parent = TextButton
 
-				input.Name = "input"
-				input.Parent = nulllib
-				input.AnchorPoint = Vector2.new(0.5, 0.5)
-				input.BackgroundColor3 = Color3.fromRGB(31, 39, 47)
-				input.BorderColor3 = Color3.fromRGB(0, 0, 0)
-				input.BorderSizePixel = 0
-				input.Position = UDim2.new(0.5, 0, 0.5, 0)
-				input.Size = UDim2.new(0, 0, 0, 0)
-				tween:Create(input, TweenInfo.new(.2,Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = UDim2.new(0.1,0,0.1,0)}):Play()
+            TextButton.MouseButton1Click:Connect(function()
+                circle(TextButton)
+                local input = Instance.new("Frame")
+                local gradient = Instance.new("UIGradient")
+                local corner = Instance.new("UICorner")
+                local box = Instance.new("TextBox")
+                local UITextSizeConstraint =
+                    Instance.new("UITextSizeConstraint")
 
-				gradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(216, 216, 216))}
-				gradient.Rotation = 45
-				gradient.Name = "gradient"
-				gradient.Parent = input
+                input.Name = "input"
+                input.Parent = nulllib
+                input.AnchorPoint = Vector2.new(0.5, 0.5)
+                input.BackgroundColor3 = Color3.fromRGB(31, 39, 47)
+                input.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                input.BorderSizePixel = 0
+                input.Position = UDim2.new(0.5, 0, 0.5, 0)
+                input.Size = UDim2.new(0, 0, 0, 0)
+                tween:Create(input, TweenInfo.new(.2, Enum.EasingStyle.Quart,
+                                                  Enum.EasingDirection.Out),
+                             {Size = UDim2.new(0.1, 0, 0.1, 0)}):Play()
 
-				corner.CornerRadius = UDim.new(0.2, 0)
-				corner.Name = "corner"
-				corner.Parent = input
+                gradient.Color = ColorSequence.new {
+                    ColorSequenceKeypoint.new(0.00,
+                                              Color3.fromRGB(255, 255, 255)),
+                    ColorSequenceKeypoint.new(1.00,
+                                              Color3.fromRGB(216, 216, 216))
+                }
+                gradient.Rotation = 45
+                gradient.Name = "gradient"
+                gradient.Parent = input
 
-				box.Name = "box"
-				box.Parent = input
-				box.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-				box.BackgroundTransparency = 1
-				box.BorderColor3 = Color3.fromRGB(0, 0, 0)
-				box.BorderSizePixel = 0
-				box.Size = UDim2.new(1, 0, 1, 0)
-				box.Font = Enum.Font.Unknown
-				box.PlaceholderColor3 = Color3.fromRGB(13, 16, 22)
-				box.PlaceholderText = "Enter new value.."
-				box.Text = ""
-				box.TextColor3 = Color3.fromRGB(255, 255, 255)
-				box.TextScaled = true
-				box.TextSize = 40
-				box.TextWrapped = true
+                corner.CornerRadius = UDim.new(0.2, 0)
+                corner.Name = "corner"
+                corner.Parent = input
 
-				box:CaptureFocus()
-				box.FocusLost:Connect(function(entered)
-					if entered then
-						call(tonumber(box.Text))
-					end
-					tween:Create(input, TweenInfo.new(.2,Enum.EasingStyle.Quart, Enum.EasingDirection.In), {Size = UDim2.new(0,0)}):Play()
-					wait(.3)
-					box:Destroy()
-				end)
+                box.Name = "box"
+                box.Parent = input
+                box.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                box.BackgroundTransparency = 1
+                box.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                box.BorderSizePixel = 0
+                box.Size = UDim2.new(1, 0, 1, 0)
+                box.Font = Enum.Font.Unknown
+                box.PlaceholderColor3 = Color3.fromRGB(13, 16, 22)
+                box.PlaceholderText = "Enter new value.."
+                box.Text = ""
+                box.TextColor3 = Color3.fromRGB(255, 255, 255)
+                box.TextScaled = true
+                box.TextSize = 40
+                box.TextWrapped = true
 
-				UITextSizeConstraint.Parent = box
-				UITextSizeConstraint.MaxTextSize = 40
-			end)
-		end
+                box:CaptureFocus()
+                box.FocusLost:Connect(function(entered)
+                    if entered then call(tonumber(box.Text)) end
+                    tween:Create(input, TweenInfo.new(.2,
+                                                      Enum.EasingStyle.Quart,
+                                                      Enum.EasingDirection.In),
+                                 {Size = UDim2.new(0, 0)}):Play()
+                    wait(.3)
+                    box:Destroy()
+                end)
 
-		function tabtbl:addLabel(text)
-			local Label = Instance.new("TextButton")
-			Label.Name = "Label"
-			Label.Parent = scroll
-			Label.BackgroundTransparency = 1
-			Label.BorderSizePixel = 0
-			Label.Size = UDim2.new(1, 0, 0, 40)
-			Label.AutoButtonColor = false
-			Label.FontFace = btnface
-			Label.Text = text
-			Label.TextColor3 = Color3.fromRGB(255, 255, 255)
-			Label.TextSize = 30
-			Label.TextScaled = true
+                UITextSizeConstraint.Parent = box
+                UITextSizeConstraint.MaxTextSize = 40
+            end)
+        end
 
-			local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
-			UITextSizeConstraint.Parent = Label
-			UITextSizeConstraint.MaxTextSize = 30
-		end
+        function tabtbl:Label(text)
+            local Label = Instance.new("TextButton")
+            Label.Name = "Label"
+            Label.Parent = scroll
+            Label.BackgroundTransparency = 1
+            Label.BorderSizePixel = 0
+            Label.Size = UDim2.new(1, 0, 0, 40)
+            Label.AutoButtonColor = false
+            Label.FontFace = btnface
+            Label.Text = text
+            Label.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Label.TextSize = 30
+            Label.TextScaled = true
 
+            local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+            UITextSizeConstraint.Parent = Label
+            UITextSizeConstraint.MaxTextSize = 30
+        end
 
-		return tabtbl
-	end
-	game:GetService("RunService").RenderStepped:Connect(function()
-		for _,v in pairs(container:GetChildren()) do
-			if v:IsA("Frame") then
-				local scrl = v.body.scroll
+        return tabtbl
+    end
+    game:GetService("RunService").RenderStepped:Connect(function()
+        for _, v in pairs(container:GetChildren()) do
+            if v:IsA("Frame") then
+                local scrl = v.body.scroll
 
-				local btns = 0
-				local minscale = 1.8
-				local ysize = 40
-				local padding = 10
+                local btns = 0
+                local minscale = 1.8
+                local ysize = 40
+                local padding = 10
 
-				for _,v in pairs(scrl:GetChildren()) do
-					if v:IsA("TextButton") and v.Visible then
-						btns = btns + 1
-					end
-				end
-				btns = math.min(btns, 10)
+                for _, v in pairs(scrl:GetChildren()) do
+                    if v:IsA("TextButton") and v.Visible then
+                        btns = btns + 1
+                    end
+                end
+                btns = math.min(btns, 10)
 
-				local yoff = (ysize+padding) * (btns-1)
-				if btns == 0 then
-					yoff = 0
-				end
+                local yoff = (ysize + padding) * (btns - 1)
+                if btns == 0 then yoff = 0 end
 
+                local final = UDim2.new(1, 0, btns > 0 and minscale or 0, yoff)
 
-				local final = UDim2.new(
-					1,0,
-					btns > 0 and minscale or 0,
-					yoff
-				)
-
-				scrl.Parent.Size = scrl.Parent.Size:Lerp(final, 0.1)
-			end
-		end
-	end)
-	return tbl
+                scrl.Parent.Size = scrl.Parent.Size:Lerp(final, 0.1)
+            end
+        end
+    end)
+    return tbl
 end
 
 return lib
