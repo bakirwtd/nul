@@ -263,7 +263,7 @@ lib.new = function(name:string)
 			end)
 		end
 
-		function tabtbl:addNum(name, call)
+		function tabtbl:addText(name, call)
 			local TextButton = Instance.new("TextButton")
 			local corner_3 = Instance.new("UICorner")
 			local defaultcolor = Color3.fromRGB(31, 39, 47)
@@ -358,6 +358,25 @@ lib.new = function(name:string)
 				UITextSizeConstraint.Parent = box
 				UITextSizeConstraint.MaxTextSize = 40
 			end)
+		end
+
+		function tabtbl:addLabel(text:string)
+			local Label = Instance.new("TextButton")
+			Label.Name = "Label"
+			Label.Parent = scroll
+			Label.BackgroundTransparency = 1
+			Label.BorderSizePixel = 0
+			Label.Size = UDim2.new(1, 0, 0, 40)
+			Label.AutoButtonColor = false
+			Label.FontFace = btnface
+			Label.Text = text
+			Label.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Label.TextSize = 30
+			Label.TextScaled = true
+
+			local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+			UITextSizeConstraint.Parent = Label
+			UITextSizeConstraint.MaxTextSize = 30
 		end
 
 
