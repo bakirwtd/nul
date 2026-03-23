@@ -186,7 +186,7 @@ lib.new = function()
             TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
             TextButton.TextSize = 30
             TextButton.Text = name
-            TextButton.Visible = false
+            TextButton.Visible = true
             TextButton.ClipsDescendants = true
             TextButton.TextScaled = true
 
@@ -257,7 +257,7 @@ lib.new = function()
             Toggle.FontFace = btnface
             Toggle.TextColor3 = Color3.fromRGB(124, 200, 112)
             Toggle.TextSize = 30
-            Toggle.Visible = false
+            Toggle.Visible = true
             Toggle.ClipsDescendants = true
             Toggle.Text = name
             Toggle.TextScaled = true
@@ -330,7 +330,7 @@ lib.new = function()
             TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
             TextButton.TextSize = 30
             TextButton.Text = name
-            TextButton.Visible = false
+            TextButton.Visible = true
             TextButton.ClipsDescendants = true
             TextButton.TextScaled = true
 
@@ -432,7 +432,7 @@ lib.new = function()
             Label.TextColor3 = Color3.fromRGB(255, 255, 255)
             Label.TextSize = 30
             Label.TextScaled = true
-            Label.Visible = false
+            Label.Visible = true
 
             local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
             UITextSizeConstraint.Parent = Label
