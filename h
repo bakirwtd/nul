@@ -254,10 +254,12 @@ lib.new = function()
             end)
 
             function tgl:bindTo(key, hold)
+                warn("Bound")
                 UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
                     if input.KeyCode == key then
                         state = (hold or not state)
                         call(state)
+                        warn("Hold key works")
                     end
                 end)
                 if hold then
@@ -265,6 +267,7 @@ lib.new = function()
                         if input.KeyCode == key then
                             state = false
                             call(state)
+                            warn("Hold key works")
                         end
                     end)
                 end
