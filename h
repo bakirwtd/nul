@@ -221,6 +221,7 @@ lib.new = function()
                     end
                 end)
             end
+            return btn
         end
 
         function tabtbl:Tgl(name, default, call)
