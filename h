@@ -66,6 +66,7 @@ lib.new = function()
     container.Size = UDim2.new(0.1, 0, 0, 40)
 
     local layout = Instance.new("UIListLayout")
+    layout.SortOrder = Enum.SortOrder.LayoutOrder
     layout.Name = "layout"
     layout.Parent = container
     layout.FillDirection = Enum.FillDirection.Horizontal
@@ -166,6 +167,7 @@ lib.new = function()
         end)
 
         local layout_2 = Instance.new("UIListLayout")
+        layout_2.SortOrder = Enum.SortOrder.LayoutOrder
         layout_2.Name = "layout"
         layout_2.Parent = scroll
         layout_2.SortOrder = Enum.SortOrder.LayoutOrder
