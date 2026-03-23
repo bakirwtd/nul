@@ -8,9 +8,10 @@ local function lerp(a, b, c)
 end
 
 local function getmouse()
-    local UIS = game:GetService("UserInputService")
-    local GuiService = game:GetService("GuiService")
-    return UIS:GetMouseLocation() - GuiService:GetGuiInset()
+    -- local UIS = game:GetService("UserInputService")
+    -- local GuiService = game:GetService("GuiService")
+    -- return UIS:GetMouseLocation() - GuiService:GetGuiInset()
+    return Vector2.new()
 end
 
 local tween = game:GetService("TweenService")
