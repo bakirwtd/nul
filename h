@@ -15,7 +15,7 @@ end
 
 local tween = game:GetService("TweenService")
 
-local function circle(btn:TextButton, pos:UDim2)
+local function circle(btn, pos)
 	local new = Instance.new("Frame")
 	local corner = Instance.new("UICorner", new)
 	corner.CornerRadius = UDim.new(1,0)
@@ -38,7 +38,7 @@ local function circle(btn:TextButton, pos:UDim2)
 	end)
 end
 
-lib.new = function(name:string)
+lib.new = function(name)
 	local tbl = {}
 
 	local nulllib = Instance.new("ScreenGui")
@@ -61,7 +61,7 @@ lib.new = function(name:string)
 	layout.FillDirection = Enum.FillDirection.Horizontal
 	layout.Padding = UDim.new(0.1, 0)
 
-	function tbl:newTab(name:string)
+	function tbl:newTab(name)
 		local tabtbl = {}
 
 		local toggled = false
@@ -348,7 +348,7 @@ lib.new = function(name:string)
 				box:CaptureFocus()
 				box.FocusLost:Connect(function(entered)
 					if entered then
-						call(box.Text)
+						call(tonumber(box.Text))
 					end
 					tween:Create(input, TweenInfo.new(.2,Enum.EasingStyle.Quart, Enum.EasingDirection.In), {Size = UDim2.new(0,0)}):Play()
 					wait(.3)
@@ -360,7 +360,7 @@ lib.new = function(name:string)
 			end)
 		end
 
-		function tabtbl:addLabel(text:string)
+		function tabtbl:addLabel(text)
 			local Label = Instance.new("TextButton")
 			Label.Name = "Label"
 			Label.Parent = scroll
@@ -394,7 +394,7 @@ lib.new = function(name:string)
 
 				for _,v in pairs(scrl:GetChildren()) do
 					if v:IsA("TextButton") and v.Visible then
-						btns += 1
+						btns = btns + 1
 					end
 				end
 				btns = math.min(btns, 10)
