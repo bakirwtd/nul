@@ -10,6 +10,8 @@ local function lerp(a, b, c)
     return a + (b - a) * c
 end
 
+local stopped = false
+
 local function getmouse()
     local GuiService = game:GetService("GuiService")
     return UserInputService:GetMouseLocation() - GuiService:GetGuiInset()
@@ -52,6 +54,7 @@ lib.new = function()
 
     function tbl:exit()
         nulllib:Destroy()
+        stopped = true
     end
 
     local container = Instance.new("Frame")
@@ -215,7 +218,12 @@ lib.new = function()
             end)
 
             function btn:bindTo(key)
-                UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+                local con
+                con = UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+                    if stopped then
+                        con:Disconnect()
+                        return
+                    end
                     if input.KeyCode == key then
                         call()
                     end
@@ -264,7 +272,12 @@ lib.new = function()
             end)
 
             function tgl:bindTo(key, hold)
-                UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+                local con
+                con = UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+                    if stopped then
+                        con:Disconnect()
+                        return
+                    end
                     if input.KeyCode == key then
                         state = (hold or not state)
                         call(state)
