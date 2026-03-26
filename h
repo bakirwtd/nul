@@ -469,7 +469,7 @@ lib.new = function()
 	local con con = RunService.RenderStepped:Connect(function()
 		correction.TintColor = correction.TintColor:Lerp(opened and openedtint or closedtint, .1)
 		blur.Size = lerp(blur.Size, opened and blursize or 0, .1)
-		container.Position = container.Position:Lerp(opened and UDim2.fromOffset(30,30) or UDim2.new(1,5,0,30), .05)
+		container.Position = container.Position:Lerp(opened and UDim2.fromOffset(30,30) or UDim2.new(1,5,0,30), .2)
 		if stopped then
 			correction:Destroy()
 			blur:Destroy()
