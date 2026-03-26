@@ -468,7 +468,7 @@ lib.new = function(satamt, bluramt)
         end
     end)
     sat = satamt or sat
-    blursize = blur or blursize
+    blursize = bluramt or blursize
     local con
     con = RunService.RenderStepped:Connect(function()
 
