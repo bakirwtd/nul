@@ -492,7 +492,7 @@ lib.new = function()
 						btns = btns + 1
 					end
 				end
-				btns = math.min(btns, 10)
+				btns = math.min(btns, 20)
 
 				local yoff = (ysize + padding) * (btns - 1)
 				if btns == 0 then
