@@ -189,7 +189,7 @@ lib.new = function(satamt, bluramt)
         layout_2.SortOrder = Enum.SortOrder.LayoutOrder
         layout_2.Padding = UDim.new(0, 10)
 
-        function tabtbl:Btn(name, call)
+        function tabtbl:Btn(name, call, bind)
             local btn = {}
             local TextButton = Instance.new("TextButton")
             local corner_3 = Instance.new("UICorner")
@@ -235,6 +235,19 @@ lib.new = function(satamt, bluramt)
                 circle(TextButton)
             end)
 
+            if bind then
+                local con
+                con = UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+                    if stopped then
+                        con:Disconnect()
+                        return
+                    end
+                    if input.KeyCode == bind then
+                        call()
+                    end
+                end)
+            end
+
             function btn:bindTo(key)
                 local con
                 con = UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
@@ -250,7 +263,7 @@ lib.new = function(satamt, bluramt)
             return btn
         end
 
-        function tabtbl:Tgl(name, default, call)
+        function tabtbl:Tgl(name, default, call, bind, hold)
             local tgl = {}
             local Toggle = Instance.new("TextButton")
             local corner = Instance.new("UICorner")
@@ -288,6 +301,28 @@ lib.new = function(satamt, bluramt)
                 state = not state
                 call(state)
             end)
+
+            if bind then
+                local con
+                con = UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+                    if stopped then
+                        con:Disconnect()
+                        return
+                    end
+                    if input.KeyCode == bind then
+                        state = (hold or not state)
+                        call(state)
+                    end
+                end)
+                if hold then
+                    UserInputService.InputEnded:Connect(function(input, gameProcessedEvent)
+                        if input.KeyCode == bind then
+                            state = false
+                            call(state)
+                        end
+                    end)
+                end
+            end
 
             function tgl:bindTo(key, hold)
                 local con
